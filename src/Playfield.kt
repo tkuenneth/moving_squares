@@ -17,14 +17,28 @@ class Playfield : JPanel(null) {
         background = Color.BLACK
         border = null
         add(ball)
+        add(leftRacket)
+        add(rightRacket)
         addComponentListener(object : ComponentAdapter() {
             override fun componentResized(e: ComponentEvent?) {
                 val percentW = e!!.component!!.width / 100f
                 val percentH = e.component!!.height / 100f
                 val ratio = percentW / percentH
-                val w = (percentW * 4f).toInt()
-                val h = (percentH * 4f * ratio).toInt()
+                var w = (percentW * 4f).toInt()
+                if (w < 4) {
+                    w = 4
+                }
+                var h = (percentH * 4f * ratio).toInt()
+                if (h < 4) {
+                    h = 4
+                }
                 ball.size = Dimension(w, h)
+                leftRacket.xPos = w
+                leftRacket.yPos = 100
+                leftRacket.size = Dimension(w, h * 4)
+                rightRacket.xPos = size.width - w - w -1
+                rightRacket.yPos = 200
+                rightRacket.size = Dimension(w, h * 4)
             }
         })
         preferredSize = Dimension(800, 600)
